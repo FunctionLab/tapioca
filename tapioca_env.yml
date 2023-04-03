@@ -1,4 +1,4 @@
-name: Tapioca_Env
+name: Tapioca
 channels:
   - anaconda
   - defaults
@@ -112,4 +112,4 @@ dependencies:
   - xz=5.2.10=h6c40b1e_1
   - zeromq=4.3.4=h23ab428_0
   - zlib=1.2.13=h4dc903c_0
-prefix: /opt/anaconda3/envs/Tapioca_Env
+prefix: /opt/anaconda3/envs/Tapioca
