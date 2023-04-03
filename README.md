@@ -18,7 +18,7 @@ Tapioca, an integrative machine learning based computational pipeline for PPI ne
 The [Tapioca website](https://tapioca.princeton.edu/) contains Tapioca scores for protein-protein interactions for thousands of proteins detected throughout cell culture infections with herpes simplex virus 1 (HSV-1; Justice et al. 2021), human cytomegalovirus (HCMV; Hashimoto et al. 2020) and Kaposi’s sarcoma associated herpesvirus (KSHV; unpublished). Individual or groups of proteins can be searched within these datasets on the Tapioca website, and the data can be downloaded.
 
 
-## <a name="local_usage"></a> Running Tapioca Locally]
+## <a name="local_usage"></a> Running Tapioca Locally
 To run Tapioca on your computer you will need both this repository and [tissue specific functional networks](https://hb.flatironinstitute.org/download) from HumanBase (files are slightly too large to be uploaded to GitHub).
 The following subsections describe how to install and set up Tapioca locally, and use it to predict protein-protein interactions.
 
@@ -30,27 +30,27 @@ To install Tapioca locally you should first clone this repository as follows.
 
 Before cloning the repository, make sure you are inside the directory in which you would like the repository to be placed.
 
-'''
+```
 git clone https://github.com/FunctionLab/tapioca.git
-'''
+```
 
 To navigate into the Tapioca folder use the command:
 
-'''
+```
 cd tapioca 
-'''
+```
 
 We recommend managing Tapioca's dependencies with a [conda environment](https://www.anaconda.com/products/distribution) as follows:
 
-'''
+```
 conda env create -f tapioca_env.yml 
-'''
+```
 
 To activate the tapioca environment use the command:
 
-'''
+```
 conda activate Tapioca
-'''
+```
 
 
 
@@ -97,12 +97,12 @@ Set the name that you would like to have your output (Tapioca predictions) named
 
 These variables need to be set in 1 of 2 places, depending on how you would like to run Tapioca. If you would like to run Tapioca by running the main.py file, these variables should be set in the config.py file. If you would like to run Tapioca using jupyter notebook, these variables can be set within the Tapioca_Notebook.ipynb file. To open this file, first run jupyter notebooks by typing the following command in your conda terminal:
 
-'''
+```
 jupyter notebook 
-'''
+```
 
 The jupyter notebook server should then open in your internet browser. Simply navigate to the tapioca folder and open the Tapioca_Notebook.ipynb file
 
 
-## <a name="citation"></a> Citing Tapioca]
+## <a name="citation"></a> Citing Tapioca
 Tapioca has recently been submitted for publication.
