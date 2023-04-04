@@ -34,13 +34,13 @@ Here, list the names of the conditions used as they appear in the csv file you a
 For example, if you wrote 'ctrl' in your csv file, then you need to put 'ctrl', not 'Ctrl',
 in this list.
 """
-conditions = ['ctrl','experimental_condition_1','experimental_condition_2']
+conditions = ['0','12','24','48','72']
 
 """
 Here, list the names of the replicates. As with conditions, this should exactly match the
 names used in the csv file.
 """
-replicates = ['replicate_1','replicate_2','replicate_3']
+replicates = ['1','2','3']
 
 """
 Here you can choose to use the full model, or the base model. To use the base model set this variable to False.
