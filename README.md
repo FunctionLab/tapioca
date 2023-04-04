@@ -68,13 +68,13 @@ for different tissues. Simply download click the download button in the *Top edg
 There are two main ways to run Tapioca. In either case, you will need to set a few variables such that Tapioca knows where your data is located, how to read it, and how you want Tapioca to run. These variables are:
 
 #### input_file
-This is the name of the csv file contain the data which Tapioca will run on. This cdv file should be located in the 'raw_input' folder. To see how to format your input file, please see the example.csv file in the raw_input folder.
+This is the name of the csv file contain the data which Tapioca will run on. This cdv file should be located in the `raw_input` folder. To see how to format your input file, please see the `example.csv` file in the `raw_input` folder.
 
 #### ref_channel
 If you included a reference sample, and which this sample to be used in normalization, please set this variable to True. If you have no idea what a reference sample is, you should probably set this variable to False.
 
 #### pre_normalized
-If you have already normalized your data, then this variable should be set to True, otherwise it should be False. If you are using co-fractionation data, we recommend normalizing your data first before inputing it into Tapioca. If this is set to True, be sure to place your data in the normalized_input folder, and see the example_normalized.csv file in the normalized_input folder for how to set up your file.
+If you have already normalized your data, then this variable should be set to True, otherwise it should be False. If you are using co-fractionation data, we recommend normalizing your data first before inputing it into Tapioca. If this is set to True, be sure to place your data in the `normalized_input` folder, and see the `example_normalized.csv` file in the `normalized_input` folder for how to set up your file.
 
 #### co_fractionation
 If you are using co_fractionation data, this variable should be set to True.
@@ -94,7 +94,7 @@ If you would like to run the full Tapioca model (all 8 sub-models and weighted i
 Specific the file name of the tissue specific functional network you would like Tapioca to use. Remember you must download these networks from HumanBase yourself (see above). If you would like to not use any networks, set this variable to ''. Tapioca can only use one network at a time. If you have conditions that should be run in different tissue contexts then run Tapioca multiple times with different tissues, including only the conditions relevant to that tissue (in the conditions variable).
 
 #### base_save_name
-Set the name that you would like to have your output (Tapioca predictions) named as. The predictions will appear in the predictions folder.
+Set the name that you would like to have your output (Tapioca predictions) named as. The predictions will appear in the `predictions` folder.
 
 
 These variables need to be set in 1 of 2 places, depending on how you would like to run Tapioca. If you would like to run Tapioca by running the main.py file, these variables should be set in the config.py file. If you would like to run Tapioca using jupyter notebook, these variables can be set within the Tapioca_Notebook.ipynb file. To open this file, first run jupyter notebooks by typing the following command in your conda terminal:
