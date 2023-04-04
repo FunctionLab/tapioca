@@ -97,13 +97,13 @@ Specific the file name of the tissue specific functional network you would like 
 Set the name that you would like to have your output (Tapioca predictions) named as. The predictions will appear in the `predictions` folder.
 
 
-These variables need to be set in 1 of 2 places, depending on how you would like to run Tapioca. If you would like to run Tapioca by running the main.py file, these variables should be set in the config.py file. If you would like to run Tapioca using jupyter notebook, these variables can be set within the Tapioca_Notebook.ipynb file. To open this file, first run jupyter notebooks by typing the following command in your conda terminal:
+These variables need to be set in 1 of 2 places, depending on how you would like to run Tapioca. If you would like to run Tapioca by running the `main.py` file, these variables should be set in the `config.py` file. If you would like to run Tapioca using jupyter notebook, these variables can be set within the `Tapioca_Notebook.ipynb` file. To open this file, first run jupyter notebooks by typing the following command in your conda terminal:
 
 ```
 jupyter notebook 
 ```
 
-The jupyter notebook server should then open in your internet browser. Simply navigate to the tapioca folder and open the Tapioca_Notebook.ipynb file
+The jupyter notebook server should then open in your internet browser. Simply navigate to the tapioca folder and open the `Tapioca_Notebook.ipynb` file
 
 
 ## <a name="citation"></a> Citing Tapioca
