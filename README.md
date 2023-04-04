@@ -46,7 +46,7 @@ We recommend managing Tapioca's dependencies with a [conda environment](https://
 conda env create -f tapioca_env_mac.yml 
 ```
 
-If you are using a windows machine, use the "tapioca_env_windows.yml" file instead. If you wish to build the environment yourself, all you need is Numpy, Scipy, Pandas, Scikit-learn (Version 0.24.2), and Jupyter (if you wish to use jupyter notebook). 
+If you are using a windows machine, use the "tapioca_env_windows.yml" file instead. If you wish to build the environment yourself, all you need is Python(Version >= 3.8) Numpy, Scipy, Pandas, Scikit-learn (Version 0.24.2), and Jupyter (if you wish to use jupyter notebook). 
 
 To activate the tapioca environment use the command:
 
