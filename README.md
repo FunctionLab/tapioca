@@ -59,7 +59,7 @@ conda activate Tapioca
 ### Downloading [Tissue Specific Functional Networks from HumanBase](https://hb.flatironinstitute.org/download)
 
 Now you will need to download tissue specific functional networks [tissue specific functional networks](https://hb.flatironinstitute.org/download) from HumanBase. On the linked HumanBase webpage you will see a list of networks
-for different tissues. Simply download click the download button in the Top edges column for which ever network(s) you wish to use. If you are unsure which one to use, we recommend starting with the Global network. Be sure to place the downloaded files in the /data/tissue_functional_networks/ directory so that Tapioca can access them. Tapioca is capable of running without these networks. If you'd like to do so, then you can skip this text.
+for different tissues. Simply download click the download button in the *Top edges* column for which ever network(s) you wish to use. If you are unsure which one to use, we recommend starting with the Global network. Be sure to place the downloaded files in the `/data/tissue_functional_networks/` directory so that Tapioca can access them. Tapioca is capable of running without these networks. If you'd like to do so, then you can skip this text.
 
 
 
