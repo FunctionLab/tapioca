@@ -7,7 +7,8 @@
 1. [What is Tapioca?](#what_is_tapioca)
 2. [The Tapioca Website](#tapioca_website)
 3. [Running Tapioca Locally](#local_usage)
-4. [Citing Tapioca](#citation)
+4. [Note on Example Files](#examples)
+5. [Citing Tapioca](#citation)
 
 
 ## <a name="what_is_tapioca"></a> What is Tapioca?
@@ -104,6 +105,10 @@ jupyter notebook
 ```
 
 The jupyter notebook server should then open in your internet browser. Simply navigate to the tapioca folder and open the Tapioca_Notebook.ipynb file
+
+
+## <a name="examples"></a> Note on Example Files
+Two examples files are provided, both are located in the raw_input folder. One, called 'example.csv' is a very shortened version of the raw KSHV TPCA data produced in the Tapioca study. Running Tapioca on this file should only take a few minutes (per replicate, per condition) on most computers. The second example, 'full_example.csv', is the complete version of the raw KSHV TPCA data. Running Tapioca on this file should take around 8 hours (per replicate, per condition).
 
 
 ## <a name="citation"></a> Citing Tapioca
