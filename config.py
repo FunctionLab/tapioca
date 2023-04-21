@@ -30,19 +30,6 @@ co-fractionation data yourself before putting it into Tapioca
 co_fractionation = False
 
 """
-Here, list the names of the conditions used as they appear in the csv file you are running on.
-For example, if you wrote 'ctrl' in your csv file, then you need to put 'ctrl', not 'Ctrl',
-in this list.
-"""
-conditions = ['0','12','24','48','72']
-
-"""
-Here, list the names of the replicates. As with conditions, this should exactly match the
-names used in the csv file.
-"""
-replicates = ['1','2','3']
-
-"""
 Here you can choose to use the full model, or the base model. To use the base model set this variable to False.
 If you choose to use the full model, you can choose to use or not use the tissue specific functional networks in
 the next step.

@@ -5,7 +5,6 @@ from scipy.spatial.distance import pdist, squareform
 import scipy.integrate as spint
 import pickle
 
-
 def convert_gene_dict(gene_dict, name_convention='g'):
     converted_gene_dict = {}
     for key, sub_dict in gene_dict.items():
@@ -464,6 +463,7 @@ def create_master_curve_dict(address,
 
     return master_curve_dict
 
+
 def get_curve_points(address):
     table = pd.read_csv(address)
     columns = list(table.columns)
@@ -472,3 +472,15 @@ def get_curve_points(address):
         if val.replace('.','',1).isdigit():
             curve_points.append(val)
     return curve_points
+
+
+def get_conditions(address):
+    table = pd.read_csv(address)
+    conditions = [str(thing) for thing in list(set(table['condition']))]
+    return conditions
+
+
+def get_replicates(address):
+    table = pd.read_csv(address)
+    replicates = [str(thing) for thing in list(set(table['replicate']))]
+    return replicates

@@ -80,13 +80,6 @@ If you have already normalized your data, then this variable should be set to Tr
 #### co_fractionation
 If you are using co_fractionation data, this variable should be set to True.
 
-#### conditions
-This is a list of strings with the conditions you would like Tapioca to run on. The conditions you put in the list should be written exactly (including capitalization and spaces) as it is written in your input csv file. You do not need to list all the
-conditions in your input csv file, only the ones you currently want Tapioca to run on.
-
-#### replicates
-This is a list of strings with the replicates you would like Tapioca to run on. The replicates you put in the list should be written exactly (including capitalization and spaces) as it is written in your input csv file. You do not need to list all the
-replicates in your input csv file, only the ones you currently want Tapioca to run on.
 
 #### full_model
 If you would like to run the full Tapioca model (all 8 sub-models and weighted integration) then set this variable to True. If you would like to run only the base model, which considers only the data in your input file and nothing else, set this variable to False.
