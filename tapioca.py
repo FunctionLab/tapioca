@@ -42,7 +42,10 @@ def run_tapioca(input_file, ref_channel, pre_normalized, co_fractionation, tissu
     if co_fractionation == True:
         master_curve_dict = pre.normalzie_cofrac_dict(master_curve_dict)
 
-    tissue_address = './data/tissue_functional_networks/' + tissue
+    if tissue != '':
+        tissue_address = './data/tissue_functional_networks/' + tissue
+    else:
+        tissue_address = tissue
 
     for rep in replicates:
         for cond in conditions:

@@ -66,7 +66,7 @@ for different tissues. Simply download click the download button in the *Top edg
 
 ### Usage overview
 
-There are two main ways to run Tapioca. In either case, you will need to set a few variables such that Tapioca knows where your data is located, how to read it, and how you want Tapioca to run. These variables are:
+There are three main ways to run Tapioca. In either case, you will need to set a few variables such that Tapioca knows where your data is located, how to read it, and how you want Tapioca to run. These variables are:
 
 #### input_file
 This is the name of the csv file contain the data which Tapioca will run on. This cdv file should be located in the `raw_input` folder. To see how to format your input file, please see the `example.csv` file in the `raw_input` folder.
@@ -97,7 +97,27 @@ These variables need to be set in 1 of 2 places, depending on how you would like
 jupyter notebook 
 ```
 
-The jupyter notebook server should then open in your internet browser. Simply navigate to the tapioca folder and open the `Tapioca_Notebook.ipynb` file
+The jupyter notebook server should then open in your internet browser. Simply navigate to the tapioca folder and open the `Tapioca_Notebook.ipynb` file.
+
+
+The third way to run Tapioca is via the command line. To accomplish this, first navigate to the 'tapioca' folder. Next type one of the following command:
+
+```
+run_tapioca.py -help
+```
+
+Or
+
+```
+python3 run_tapioca.py -help
+```
+
+Running this command will print out the symbols associated with each variable described above. Here, instead of setting relevant variable True and False, they are set 1 (True) and 0 (False). Here is of running the full model with a global tissue specific-functional network on the example file.
+
+```
+python3 run_tapioca.py -i example.csv -s cmd_savename -r 1 -f 1 -t global_top.gz
+```
+
 
 
 ## <a name="examples"></a> Note on Example Files
