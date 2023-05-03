@@ -93,7 +93,7 @@ def main():
                         metavar="raw_file", default=None,
                         help="The path to the input csv file")
 
-    parser.add_argument("-s", "--savename", type=str, nargs=1,
+    parser.add_argument("-o", "--output", type=str, nargs=1,
                         metavar="base_save_name", default=None,
                         help="The base save name for the prediction files")
 

@@ -115,7 +115,7 @@ python3 run_tapioca.py -help
 Running this command will print out the symbols associated with each variable described above. Here, instead of setting relevant variable True and False, they are set 1 (True) and 0 (False). Here is of running the full model with a global tissue specific-functional network on the example file.
 
 ```
-python3 run_tapioca.py -i example.csv -s cmd_savename -r 1 -f 1 -t global_top.gz
+python3 run_tapioca.py -i example.csv -o cmd_savename -r 1 -f 1 -t global_top.gz
 ```
 
 
