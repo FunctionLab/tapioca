@@ -29,7 +29,6 @@ def validate_file(file_name, prenorm):
         else:
             print(INVALID_NORM_CONTENT_MSG % (file_name))
         quit()
-    return
 
 
 def valid_filetype(file_name):
@@ -39,6 +38,8 @@ def valid_filetype(file_name):
 
 def valid_path(path):
     # validate file path
+    print(path)
+    print(os.path.exists(path))
     return os.path.exists(path)
 
 def validate_file_structure(path,prenorm):
@@ -89,65 +90,57 @@ def main():
     parser = argparse.ArgumentParser(description="A Command Line Interface For Running Tapioca")
 
     # defining arguments for parser object
-    parser.add_argument("-i", "--input", type=str, nargs=1,
-                        metavar="raw_file", default=None,
+    parser.add_argument("-i", "--input", type=str,
+                        metavar="raw_file", default=None,required=True,
                         help="The path to the input csv file")
 
-    parser.add_argument("-o", "--output", type=str, nargs=1,
-                        metavar="base_save_name", default=None,
+    parser.add_argument("-b", "--output_base_name", type=str,
+                        metavar="output_base_name", default="pred",
                         help="The base save name for the prediction files")
 
-    parser.add_argument("-r", "--ref", type=int, nargs=1,
+    parser.add_argument("-r", "--ref", type=int,
                         metavar="ref_channel", default=1,
                         help="0 to not perform Reference channel normalization. Default 1")
 
-    parser.add_argument("-p", "--prenorm", type=int, nargs=1,
+    parser.add_argument("-p", "--prenorm", type=int,
                         metavar="pre_normalized", default=0,
                         help="Set 1 when inputting pre-normalized data. Default 0")
 
-    parser.add_argument("-c", "--cofrac", type=int, nargs=1,
+    parser.add_argument("-c", "--cofrac", type=int,
                         metavar="co_fractionation", default=0,
                         help="Set 1 when inputting cofractionation data. Default 0")
 
-    parser.add_argument("-f", "--fullmodel", type=int, nargs=1,
+    parser.add_argument("-f", "--fullmodel", type=int,
                         metavar="full_model", default=0,
                         help="Set 0 to use only the base submodel. Default 1")
 
-    parser.add_argument("-t", "--tissue", type=str, nargs=1,
+    parser.add_argument("-t", "--tissue", type=str,
                         metavar="tissue", default=None,
                         help="The path to the tissue-specific functional network you would like to use.")
 
     # parse the arguments from standard input
     args = parser.parse_args()
-    args.input = args.input[0]
-    input_check = './raw_input/'+args.input
-    args.ref = bool(args.ref[0])
-    args.prenorm = bool(args.prenorm[0])
-    args.cofrac = bool(args.cofrac[0])
-    args.fullmodel = bool(args.fullmodel[0])
-
-    # Check that the input file exists
-    if args.input == None:
-        print('Error: No input file provided.')
-        quit()
+    print(args)
+    args.ref = bool(args.ref)
+    args.prenorm = bool(args.prenorm)
+    args.cofrac = bool(args.cofrac)
+    args.fullmodel = bool(args.fullmodel)
 
     # Validate the Input
-    validate_file(input_check, args.prenorm)
+    validate_file(args.input, args.prenorm)
+
+    if args.tissue and not os.path.exists(args.tissue):
+        raise FileNotFoundError(f"Error, could not find the tissue network file: {args.tissue}")
 
 
-
+    output_base_name = args.output
     # If savename is None then set a default name based on the time
-    if args.savename == None:
+    if not args.output:
         current_datatime = str(datetime.datetime.now()).replace('-', '').replace(':', '') \
                         .split('.')[0].replace(' ', '')
-        args.savename = current_datatime
-    else:
-        args.savename = args.savename[0]
+        output_base_name = current_datatime
 
-    if args.tissue == None:
-        args.tissue = ''
-    else:
-        args.tissue = args.tissue[0]
+
 
     tp.run_tapioca(
         input_file=args.input,
@@ -155,7 +148,7 @@ def main():
         pre_normalized=args.prenorm,
         co_fractionation=args.cofrac,
         tissue=args.tissue,
-        base_save_name=args.savename,
+        base_save_name=output_base_name,
         full_model=args.fullmodel
     )
 
