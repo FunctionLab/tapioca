@@ -1,11 +1,12 @@
 import preprocessing_helpers as ph
 import numpy as np
+import os
 
 
-def process_in_file(in_file, ref_norm=True, logistic_curve_fit=True):
+def process_in_file(input_filename,output_filename, ref_norm=True, logistic_curve_fit=True):
     # ------ load in data -------
-    non_normed = ph.load_data.load_protein_data(in_file + '.csv')
-    in_file = in_file.replace('raw_input','normalized_input')
+    non_normed = ph.load_data.load_protein_data(input_filename)
+    #in_file = in_file.replace('raw_input','normalized_input')
     if ref_norm:
         # ------- reference normalization -------
 
@@ -21,23 +22,23 @@ def process_in_file(in_file, ref_norm=True, logistic_curve_fit=True):
 
         # ------- MOM normalization -------
         MOMy_normed_data = ph.normalization.MOMy_normalization(ref_normed_data, logistic_curve_fit=logistic_curve_fit)
-        MOMy_normed_data.to_csv(in_file + '_normalized.csv')
-        normalized_file_address = in_file + '_normalized.csv'
+        MOMy_normed_data.to_csv(output_filename)
+        #normalized_file_address = in_file + '_normalized.csv'
 
     else:
         MOMy_normed_data = ph.normalization.MOMy_normalization(non_normed, logistic_curve_fit=logistic_curve_fit)
-        MOMy_normed_data.to_csv(in_file + '_normalized.csv')
-        normalized_file_address = in_file + '_normalized.csv'
+        MOMy_normed_data.to_csv(output_filename)
+        #normalized_file_address = in_file + '_normalized.csv'
 
 
-    return normalized_file_address
+    #return normalized_file_address
 
 
-def preprocess(address,ref_norm,logistic_curve_fit):
-    address = address.replace('.csv','')
-    normalized_file_address = process_in_file(address,ref_norm=ref_norm,
+def preprocess(input_file,output_dir,ref_norm,logistic_curve_fit):
+    output_filename = os.path.join(output_dir,'input_normalized.csv')
+    process_in_file(input_file,output_filename,ref_norm=ref_norm,
                                               logistic_curve_fit=logistic_curve_fit)
-    return normalized_file_address
+    return output_filename
 
 
 def normalzie_cofrac_dict(cf_dict):

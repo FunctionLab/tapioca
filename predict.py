@@ -5,6 +5,7 @@ from scipy.spatial.distance import pdist, squareform
 import model as m
 import scripts as scr
 
+
 # This function computes the z scores, based on euclidean distance, for a set of curves
 def create_z_score_dict(curve_dict, metric='euclidean', ex_distance=False, prot_mean_std_dict=False,
                         curve_points=[36.9, 40.2, 43.9, 46.6, 48.6, 52.7, 55.3, 58.5, 61.2, 64]):
@@ -99,18 +100,19 @@ def compare_pair_dicts(pair_dict_1, pair_dict_2):
     return corr
 
 
-def model_predict(model_address, curve_dict, save_name='tmp', model_type='B',batch_size=5000, shuffle=True,
+def model_predict(model_address, curve_dict,output_dir, save_name='tmp', model_type='B',batch_size=5000, shuffle=True,
                   prior_dict_address=None, mouse=False,
                   pfam=False, properties=False, x_=[36.9, 40.2, 43.9, 46.6, 48.6, 52.7, 55.3, 58.5, 61.2, 64]):
 
-
+    #temp_dir = os.path.join(output_dir,"temp")
     if model_type.upper() == 'B':
         model = m.Base_Model(model_address=model_address)
-        model.predict(save_address=save_name, prot_ints_dict=curve_dict, batch_size=batch_size, shuffle=shuffle, x_=x_)
+        #print("Before predict Base model")
+        model.predict(save_name,output_dir,curve_dict,batch_size=batch_size, shuffle=shuffle, x_=x_)
 
     else:
         model = m.Extended_Model(model_address=model_address)
-
+        #print("Before predict Full model")
         if properties == True:
             if mouse == True:
                 properties_dict_address_list = ['./data/model_features/mouse_strain_C57BL6J_master_properties_dict_1',
@@ -133,16 +135,17 @@ def model_predict(model_address, curve_dict, save_name='tmp', model_type='B',bat
         else:
             pfam_dict_address_list = None
 
-        model.predict(save_address=save_name, prot_ints_dict=curve_dict,batch_size=batch_size,
+        model.predict(save_name, curve_dict,output_dir,batch_size=batch_size,
                       prior_dict_address=prior_dict_address, pfam_dict_address_list=pfam_dict_address_list,
                       properties_dict_address=properties_dict_address_list, shuffle=shuffle, x_=x_)
-
 
     return save_name
 
 
 # This function predicts protien-protein interactions
-def tapioca_predict(base_address, tissue_address, curve_dict, curve_points, model_type):
+def tapioca_predict(base_address, tissue_address, curve_dict, curve_points, model_type, output_dir):
+
+    print(f"Processing {base_address} {tissue_address} ")
 
     batch_size = 100000
     if int((len(curve_dict)*len(curve_dict)) / 2) < batch_size:
@@ -159,7 +162,23 @@ def tapioca_predict(base_address, tissue_address, curve_dict, curve_points, mode
 
     curve_points = [float(val) for val in curve_points]
 
-    temp_base_address = './temp/' + base_address
+ 
+    if model_type == 'B':
+        models = './data/models/tapioca_base_submodel'
+        output_pred_dir = output_dir
+        print(f"models: {models}")
+        print(f"output_pred_dir: {output_pred_dir}")
+        output_filename = base_address+".tsv"
+        model_predict(models, curve_dict, output_pred_dir,save_name=output_filename, model_type=model_type, batch_size=batch_size, shuffle=True,
+                     pfam=True, properties=True, prior_dict_address=tissue_address, x_=curve_points)
+        print(f"====FINAL output at {os.path.join(output_pred_dir,output_filename)}")
+        return 'Done'
+
+
+    #full model  model_type == 'F':
+    #prediction will be in temp directory
+    output_pred_dir = os.path.join(output_dir,"temp")
+    temp_base_address = os.path.join(output_pred_dir,base_address)
     if tissue_address != '':
         pred_dict_address_list = [temp_base_address + '_base.tsv',
                                 temp_base_address + '_prop.tsv',
@@ -172,27 +191,27 @@ def tapioca_predict(base_address, tissue_address, curve_dict, curve_points, mode
 
 
         models = [tapioca_base,tapioca_prop,tapioca_pfam,tapioca_prior,
-                  tapioca_prop_pfam,tapioca_prior_pfam,tapioca_prior_prop,
-                  tapioca_prior_prop_pfam]
+                tapioca_prop_pfam,tapioca_prior_pfam,tapioca_prior_prop,
+                tapioca_prior_prop_pfam]
 
     else:
         pred_dict_address_list = [temp_base_address + '_base.tsv',
-                                  temp_base_address + '_prop.tsv',
-                                  temp_base_address + '_pfam.tsv',
-                                  temp_base_address + '_prop_pfam.tsv']
+                                temp_base_address + '_prop.tsv',
+                                temp_base_address + '_pfam.tsv',
+                                temp_base_address + '_prop_pfam.tsv']
 
         models = [tapioca_base, tapioca_prop, tapioca_pfam, tapioca_prop_pfam]
 
-    if model_type == 'B':
-        models = './data/models/tapioca_base_submodel'
-        base_address = './predictions/' + base_address
+    
 
-    model_predict(models, curve_dict, save_name=base_address, model_type=model_type, batch_size=batch_size, shuffle=True,
+    print(f"models: {models}")
+    print(f"output_pred_dir: {output_pred_dir}")
+    model_predict(models, curve_dict, output_pred_dir,save_name=base_address, model_type=model_type, batch_size=batch_size, shuffle=True,
                      pfam=True, properties=True, prior_dict_address=tissue_address, x_=curve_points)
 
-    if model_type == 'B':
-        return 'Done'
-
+    #
+    # Merge the results from temp predictions into final output directory
+    #
     dict_list = []
     for pred_dict_address in pred_dict_address_list:
         dict_list.append(scr.tsv_to_dict(pred_dict_address))
@@ -220,11 +239,14 @@ def tapioca_predict(base_address, tissue_address, curve_dict, curve_points, mode
 
         weighted_dict[pair] = weighted_val / np.sum(corr_list)
 
-    save_name = './predictions/' + base_address
-    scr.network_dict_to_tsv_file(weighted_dict, savename=save_name)
+#    save_name = './predictions/' + base_address +".tsv"
+    output = os.path.join(output_dir, base_address +".tsv")
+    scr.save_dict_to_tsv_file(weighted_dict, output_filename=output)
+    print(f"====FINAL output at {output}")
 
     for file in pred_dict_address_list:
-        os.remove(file)
+        print("\tnot Removing "+file)
+        #os.remove(file)
 
     return 'Done'
 

@@ -98,6 +98,10 @@ def main():
                         metavar="output_base_name", default="pred",
                         help="The base save name for the prediction files")
 
+    parser.add_argument("-o", "--output", type=str,
+                        metavar="output_dir_name", required=True,
+                        help="The output directory where the predictions will be stored")
+
     parser.add_argument("-r", "--ref", type=int,
                         metavar="ref_channel", default=1,
                         help="0 to not perform Reference channel normalization. Default 1")
@@ -115,7 +119,7 @@ def main():
                         help="Set 0 to use only the base submodel. Default 1")
 
     parser.add_argument("-t", "--tissue", type=str,
-                        metavar="tissue", default=None,
+                        metavar="tissue", default='',
                         help="The path to the tissue-specific functional network you would like to use.")
 
     # parse the arguments from standard input
@@ -129,13 +133,27 @@ def main():
     # Validate the Input
     validate_file(args.input, args.prenorm)
 
+
+    if not os.path.exists(args.output):
+        try:
+            os.mkdir(args.output) 
+        except OSError as error: 
+            parser.exit(1, message=f"Can't create output {args.output} . Check file permissions")
+
+    temp_dir = os.path.join(args.output,"temp")
+    if not os.path.exists(temp_dir):
+        try:
+            os.mkdir(temp_dir) 
+        except OSError as error: 
+            parser.exit(1, message=f"Can't create output temp directory >{temp_dir}<. Check file permissions")
+
     if args.tissue and not os.path.exists(args.tissue):
-        raise FileNotFoundError(f"Error, could not find the tissue network file: {args.tissue}")
+        parser.exit(1, message=f"The tissue network file: >{args.tissue}< doesn't exist")
 
 
-    output_base_name = args.output
+    output_base_name = args.output_base_name
     # If savename is None then set a default name based on the time
-    if not args.output:
+    if not args.output_base_name:
         current_datatime = str(datetime.datetime.now()).replace('-', '').replace(':', '') \
                         .split('.')[0].replace(' ', '')
         output_base_name = current_datatime
@@ -147,9 +165,11 @@ def main():
         ref_channel=args.ref,
         pre_normalized=args.prenorm,
         co_fractionation=args.cofrac,
-        tissue=args.tissue,
+        tissue=args.tissue,        
+        full_model=args.fullmodel,
+        output_dir=args.output,
         base_save_name=output_base_name,
-        full_model=args.fullmodel
+
     )
 
 

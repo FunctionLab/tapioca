@@ -5,6 +5,7 @@ import scripts as scr
 
 import numpy as np
 import itertools
+import os
 
 from scipy.spatial.distance import euclidean
 
@@ -468,7 +469,7 @@ class Base_Model():
 
         return data_generator
 
-    def predict(self, save_address, prot_ints_dict, batch_size=1, shuffle=True,
+    def predict(self, save_address,output_dir, prot_ints_dict, batch_size=1, shuffle=True,
                 x_={'default':[36.9, 40.2, 43.9, 46.6, 48.6, 52.7, 55.3, 58.5, 61.2, 64]}):
 
         x_ = {'default': x_}
@@ -504,8 +505,8 @@ class Base_Model():
                 gene1_key = list_IDs_temp[i][0]
                 gene2_key = list_IDs_temp[i][1]
                 pred_dict[gene1_key, gene2_key] = preds[i][1]
-
-        scr.network_dict_to_tsv_file(pred_dict, savename=save_address)
+        save_address = os.path.join(output_dir,save_address)
+        scr.save_dict_to_tsv_file(pred_dict, output_filename=save_address)
 
 
 class Extended_Model(Base_Model):
@@ -542,6 +543,7 @@ class Extended_Model(Base_Model):
         return curve
 
     def network_dict_to_tsv_file(self, network_dict, savename='./data/test', n=2, mode='a'):
+
         f = open(savename + '.tsv', mode)
         for key, value in network_dict.items():
             line = ''
@@ -571,7 +573,7 @@ class Extended_Model(Base_Model):
 
         return in_dict
 
-    def predict(self, save_address, prot_ints_dict,
+    def predict(self, save_address, prot_ints_dict, output_dir,
                 prior_dict_address=None, go_dict_address=None, pfam_dict_address_list=None,
                 properties_dict_address=None, batch_size=1, shuffle=True,
                 x_={'default':[36.9, 40.2, 43.9, 46.6, 48.6, 52.7, 55.3, 58.5, 61.2, 64]}):
@@ -592,6 +594,7 @@ class Extended_Model(Base_Model):
                 relevant_prots.add(prot)
             prior_dict = {}
             prior_dict['info'] = {}
+            print(f"prior_dict_address: {prior_dict_address}, relevant_prots: {relevant_prots}")
             prior_dict['predict'] = scr.create_tissue_dict(prior_dict_address, relevant_prots=relevant_prots)
             prior_dict['info']['predict'] = 'predict'
 
@@ -634,7 +637,8 @@ class Extended_Model(Base_Model):
         else:
             save_add_on = ['_base', '_prop', '_pfam', '_prop_pfam']
 
-        save_address = './temp/' + save_address
+        #Creating temporary files
+        save_address = os.path.join(output_dir,save_address)
         for i, model in enumerate(self.model_list):
             f = open(save_address + save_add_on[i] + '.tsv', 'w')
             f.close()
@@ -659,7 +663,7 @@ class Extended_Model(Base_Model):
                     gene1_key = list_IDs_temp[i][0]
                     gene2_key = list_IDs_temp[i][1]
                     pred_dict[gene1_key, gene2_key] = preds[i][1]
-
+                #Appending to the aleady files
                 self.network_dict_to_tsv_file(pred_dict, savename=save_address + save_add_on[j], mode='a')
 
         if self.model!= None:

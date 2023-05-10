@@ -343,24 +343,24 @@ def create_prot_mean_std_dict(curve_dict, metric='euclidean', ex_distance=False,
 
 
 # This function saves Tapioca predictions as a tsv
-def network_dict_to_tsv_file(network_dict, savename='./data/test', n=2):
-    f = open(savename + '.tsv', "w")
-    for key, value in network_dict.items():
-        line = ''
-        skip_flag = False
-        for i in range(n):
-            gene = key[i]
-            if gene == None:
-                skip_flag = True
-                break
-            line = line + '\t' + gene
-        if skip_flag:
-            continue
+def save_dict_to_tsv_file(network_dict, output_filename='./data/test.tsv', n=2):
 
-        line = line +'\t'+ str(value) + '\n'
-        f.write(line)
+    with open(output_filename, "w") as f:
+        #print(f"Writing to {f}")
+        for key, value in network_dict.items():
+            line = ''
+            skip_flag = False
+            for i in range(n):
+                gene = key[i]
+                if gene == None:
+                    skip_flag = True
+                    break
+                line = line + '\t' + gene
+            if skip_flag:
+                continue
 
-    f.close()
+            line = line +'\t'+ str(value) + '\n'
+            f.write(line)
 
 
 # This function reads Tapioca predictions
