@@ -93,8 +93,8 @@ class Base_Data_Generator():
 
     def on_epoch_end(self):
         self.indexes = np.arange(len(self.list_IDs))
-        if self.shuffle == True:
-            np.random.shuffle(self.indexes)
+        # if self.shuffle == True:
+        #     np.random.shuffle(self.indexes)
 
     def mean_euc_dist(self,y1, y2):
         cdist = []
@@ -110,10 +110,12 @@ class Base_Data_Generator():
         return (np.mean(cdist)) ** 0.5
 
     def base_data_generation(self, list_IDs_temp):
-        if self.batch_size == None:
-            batch_size = len(self.list_IDs)
-        else:
-            batch_size = self.batch_size
+        # if self.batch_size == None:
+        #     batch_size = len(self.list_IDs)
+        # else:
+        #     batch_size = self.batch_size
+
+        batch_size = len(list_IDs_temp)
 
         cdist = np.empty((batch_size, 13))
         curve_corr = np.empty((batch_size, 7))
@@ -177,7 +179,8 @@ class Base_Data_Generator():
         if self.batch_size == None:
             return 1
         else:
-            return int(np.floor(len(self.list_IDs) / self.batch_size))
+
+            return int(np.ceil(len(self.list_IDs) / self.batch_size))
 
     def __getitem__(self, index):
         if self.batch_size == None:
@@ -261,10 +264,12 @@ class Extended_Data_Generator(Base_Data_Generator):
         return num_shared
 
     def other_data_generation(self, list_IDs_temp):
-        if self.batch_size == None:
-            batch_size = len(self.list_IDs)
-        else:
-            batch_size = self.batch_size
+        # if self.batch_size == None:
+        #     batch_size = len(self.list_IDs)
+        # else:
+        #     batch_size = self.batch_size
+
+        batch_size = len(list_IDs_temp)
 
         prior = np.empty((batch_size, 1))
 
@@ -592,6 +597,7 @@ class Extended_Model(Base_Model):
                 relevant_prots.add(prot)
             prior_dict = {}
             prior_dict['info'] = {}
+            print(f"prior_dict_address: {prior_dict_address}, relevant_prots: {relevant_prots}")
             prior_dict['predict'] = scr.create_tissue_dict(prior_dict_address, relevant_prots=relevant_prots)
             prior_dict['info']['predict'] = 'predict'
 
