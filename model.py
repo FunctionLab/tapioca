@@ -94,8 +94,8 @@ class Base_Data_Generator():
 
     def on_epoch_end(self):
         self.indexes = np.arange(len(self.list_IDs))
-        if self.shuffle == True:
-            np.random.shuffle(self.indexes)
+        # if self.shuffle == True:
+        #     np.random.shuffle(self.indexes)
 
     def mean_euc_dist(self,y1, y2):
         cdist = []
@@ -111,10 +111,8 @@ class Base_Data_Generator():
         return (np.mean(cdist)) ** 0.5
 
     def base_data_generation(self, list_IDs_temp):
-        if self.batch_size == None:
-            batch_size = len(self.list_IDs)
-        else:
-            batch_size = self.batch_size
+   
+        batch_size = len(list_IDs_temp)
 
         cdist = np.empty((batch_size, 13))
         curve_corr = np.empty((batch_size, 7))
@@ -175,10 +173,10 @@ class Base_Data_Generator():
         return X
 
     def __len__(self):
-        if self.batch_size == None:
+        if not self.batch_size:
             return 1
-        else:
-            return int(np.floor(len(self.list_IDs) / self.batch_size))
+
+        return int(np.ceil(len(self.list_IDs) / self.batch_size))
 
     def __getitem__(self, index):
         if self.batch_size == None:
@@ -262,11 +260,8 @@ class Extended_Data_Generator(Base_Data_Generator):
         return num_shared
 
     def other_data_generation(self, list_IDs_temp):
-        if self.batch_size == None:
-            batch_size = len(self.list_IDs)
-        else:
-            batch_size = self.batch_size
-
+        batch_size = len(list_IDs_temp)
+        
         prior = np.empty((batch_size, 1))
 
         length = np.empty((batch_size, 2))
