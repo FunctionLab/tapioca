@@ -112,7 +112,7 @@ def main():
 
     parser.add_argument("-c", "--cofrac", type=int,
                         metavar="co_fractionation", default=0,
-                        help="Set 1 when inputting cofractionation data. Default 0")
+                        help="Set 1 when inputting cofractionation data. Data need to be pre-normalized. Default 0")
 
     parser.add_argument("-f", "--fullmodel", type=int,
                         metavar="full_model", default=0,
@@ -125,10 +125,13 @@ def main():
     # parse the arguments from standard input
     args = parser.parse_args()
     print(args)
-    args.ref = bool(args.ref)
-    args.prenorm = bool(args.prenorm)
-    args.cofrac = bool(args.cofrac)
-    args.fullmodel = bool(args.fullmodel)
+    ref = bool(args.ref)
+    prenorm = bool(args.prenorm)
+    cofrac = bool(args.cofrac)
+    fullmodel = bool(args.fullmodel)
+
+    if cofrac and not prenorm:
+        parser.exit(1, message=f"Error. Cofractionation data should option (-c1) be used with pre-normalized (-p1).")
 
     # Validate the Input
     validate_file(args.input, args.prenorm)
@@ -162,11 +165,11 @@ def main():
 
     tp.run_tapioca(
         input_file=args.input,
-        ref_channel=args.ref,
-        pre_normalized=args.prenorm,
-        co_fractionation=args.cofrac,
+        ref_channel=ref,
+        pre_normalized=prenorm,
+        co_fractionation=cofrac,
         tissue=args.tissue,        
-        full_model=args.fullmodel,
+        full_model=fullmodel,
         output_dir=args.output,
         base_save_name=output_base_name,
 
