@@ -4,6 +4,7 @@ import pandas as pd
 from scipy.spatial.distance import pdist, squareform
 import model as m
 import scripts as scr
+from config import MODELS_DIR, MODELS_FEAT_DIR
 
 
 # This function computes the z scores, based on euclidean distance, for a set of curves
@@ -104,6 +105,7 @@ def model_predict(model_address, curve_dict,output_dir, save_name='tmp', model_t
                   prior_dict_address=None, mouse=False,
                   pfam=False, properties=False, x_=[36.9, 40.2, 43.9, 46.6, 48.6, 52.7, 55.3, 58.5, 61.2, 64]):
 
+
     #temp_dir = os.path.join(output_dir,"temp")
     if model_type.upper() == 'B':
         model = m.Base_Model(model_address=model_address)
@@ -115,23 +117,23 @@ def model_predict(model_address, curve_dict,output_dir, save_name='tmp', model_t
         #print("Before predict Full model")
         if properties == True:
             if mouse == True:
-                properties_dict_address_list = ['./data/model_features/mouse_strain_C57BL6J_master_properties_dict_1',
-                                                './data/model_features/mouse_strain_C57BL6J_master_properties_dict_2']
+                properties_dict_address_list = [MODELS_FEAT_DIR+'/mouse_strain_C57BL6J_master_properties_dict_1',
+                                                MODELS_FEAT_DIR+'/mouse_strain_C57BL6J_master_properties_dict_2']
             else:
-                properties_dict_address_list = ['./data/model_features/master_properties_dict_1',
-                                                './data/model_features/master_properties_dict_2',
-                                                './data/model_features/master_properties_dict_3']
+                properties_dict_address_list = [MODELS_FEAT_DIR+'/master_properties_dict_1',
+                                                MODELS_FEAT_DIR+'/master_properties_dict_2',
+                                                MODELS_FEAT_DIR+'/master_properties_dict_3']
         else:
             properties_dict_address_list = None
 
         if pfam == True:
             if mouse == True:
-                pfam_dict_address_list = ['./data/model_features/mouse_10090_pfam.tsv.gz']
+                pfam_dict_address_list = [MODELS_FEAT_DIR+'/mouse_10090_pfam.tsv.gz']
             else:
-                pfam_dict_address_list = ['./data/model_features/human_9606_pfam.tsv.gz',
-                      './data/model_features/hsv1_10299_pfam.tsv.gz',
-                      './data/model_features/hcmv_10360_pfam.tsv.gz',
-                      './data/model_features/kshv_868565_pfam.tsv.gz']
+                pfam_dict_address_list = [MODELS_FEAT_DIR+'/human_9606_pfam.tsv.gz',
+                      MODELS_FEAT_DIR+'/hsv1_10299_pfam.tsv.gz',
+                      MODELS_FEAT_DIR+'/hcmv_10360_pfam.tsv.gz',
+                      MODELS_FEAT_DIR+'/kshv_868565_pfam.tsv.gz']
         else:
             pfam_dict_address_list = None
 
@@ -151,20 +153,20 @@ def tapioca_predict(base_address, tissue_address, curve_dict, curve_points, mode
     if int((len(curve_dict)*len(curve_dict)) / 2) < batch_size:
         batch_size = int((len(curve_dict)*len(curve_dict)) / 10)
 
-    tapioca_base = './data/models/tapioca_base_submodel'
-    tapioca_prop = './data/models/tapioca_prop_submodel'
-    tapioca_pfam = './data/models/tapioca_pfam_submodel'
-    tapioca_prior = './data/models/tapioca_prior_submodel'
-    tapioca_prop_pfam = './data/models/tapioca_prop_pfam_submodel'
-    tapioca_prior_pfam = './data/models/tapioca_prior_pfam_submodel'
-    tapioca_prior_prop = './data/models/tapioca_prior_prop_submodel'
-    tapioca_prior_prop_pfam = './data/models/tapioca_prior_prop_pfam_submodel'
+    tapioca_base = os.path.join(MODELS_DIR,'tapioca_base_submodel')
+    tapioca_prop = os.path.join(MODELS_DIR,'tapioca_prop_submodel')
+    tapioca_pfam = os.path.join(MODELS_DIR,'tapioca_pfam_submodel')
+    tapioca_prior = os.path.join(MODELS_DIR,'tapioca_prior_submodel')
+    tapioca_prop_pfam = os.path.join(MODELS_DIR,'tapioca_prop_pfam_submodel')
+    tapioca_prior_pfam = os.path.join(MODELS_DIR,'tapioca_prior_pfam_submodel')
+    tapioca_prior_prop = os.path.join(MODELS_DIR,'tapioca_prior_prop_submodel')
+    tapioca_prior_prop_pfam = os.path.join(MODELS_DIR,'tapioca_prior_prop_pfam_submodel')
 
     curve_points = [float(val) for val in curve_points]
 
  
     if model_type == 'B':
-        models = './data/models/tapioca_base_submodel'
+        models = os.path.join(MODELS_DIR,'tapioca_base_submodel')
         output_pred_dir = output_dir
         print(f"models: {models}")
         print(f"output_pred_dir: {output_pred_dir}")

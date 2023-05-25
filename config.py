@@ -54,3 +54,8 @@ For example a base name of 'tapioca_predictions' with condition 'ctrl' and repli
 'replicate_1' will result in a file name of 'tapioca_predictions_ctrl_replicate_1'.
 """
 base_save_name = 'example_predictions'
+
+
+
+MODELS_DIR='/Users/alicja/dev/workspace/python3/tapioca/data/models'
+MODELS_FEAT_DIR='/Users/alicja/dev/workspace/python3/tapioca/data/model_features/'
