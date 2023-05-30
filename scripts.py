@@ -4,7 +4,7 @@ import math
 from scipy.spatial.distance import pdist, squareform
 import scipy.integrate as spint
 import pickle
-
+from config import BIOGRID_DIR
 def convert_gene_dict(gene_dict, name_convention='g'):
     converted_gene_dict = {}
     for key, sub_dict in gene_dict.items():
@@ -34,7 +34,7 @@ def convert_gene_dict(gene_dict, name_convention='g'):
 
 
 def create_tissue_dict(address, name_convention='accession', relevant_prots=None):
-    gene_dict_raw = load_object('./data/Biogrid/gene_dict_Homo_sapiens')
+    gene_dict_raw = load_object(BIOGRID_DIR+'gene_dict_Homo_sapiens')
     gene_dict = convert_gene_dict(gene_dict_raw, name_convention=name_convention)
     del gene_dict_raw
 

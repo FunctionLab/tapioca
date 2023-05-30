@@ -8,7 +8,7 @@ import itertools
 import os
 
 from scipy.spatial.distance import euclidean
-
+from config import MODELS_FEAT_DIR
 
 class Base_Data_Generator():
 
@@ -211,9 +211,9 @@ class Extended_Data_Generator(Base_Data_Generator):
         self.properties_dict=properties_dict
 
         if self.pfam_dict != None:
-            self.domain_co_occurance_dict = scr.load_object('./data/model_features/human_herpesvirus_gs_pfam_domain_co_occurance_dict')
-            self.family_co_occurance_dict = scr.load_object('./data/model_features/human_herpesvirus_gs_pfam_family_co_occurance_dict')
-            self.clan_co_occurance_dict = scr.load_object('./data/model_features/human_herpesvirus_gs_pfam_clan_co_occurance_dict')
+            self.domain_co_occurance_dict = scr.load_object(MODELS_FEAT_DIR+'/human_herpesvirus_gs_pfam_domain_co_occurance_dict')
+            self.family_co_occurance_dict = scr.load_object(MODELS_FEAT_DIR+'/human_herpesvirus_gs_pfam_family_co_occurance_dict')
+            self.clan_co_occurance_dict = scr.load_object(MODELS_FEAT_DIR+'/human_herpesvirus_gs_pfam_clan_co_occurance_dict')
 
     def pfam_process(self, list1, list2, co_occurance_dict):
         shared_funcs = 0

@@ -59,3 +59,4 @@ base_save_name = 'example_predictions'
 
 MODELS_DIR='/Users/alicja/dev/workspace/python3/tapioca/data/models'
 MODELS_FEAT_DIR='/Users/alicja/dev/workspace/python3/tapioca/data/model_features/'
+BIOGRID_DIR='/Users/alicja/dev/workspace/python3/tapioca/data/Biogrid/'
