@@ -6,6 +6,12 @@ import pandas as pd
 
 # error messages
 INVALID_FILETYPE_MSG = "\n Error: Invalid file format. %s must be a .csv file."
+INVALID_FILE_CODE=100
+INVALID_FILETYPE_CODE=101
+INVALID_CONTENT_CODE=102
+INVALID_NORM_CONTENT_CODE=103
+CORRECT_FILE=0
+
 INVALID_PATH_MSG = "\n Error: Invalid file path/name. Path %s does not exist."
 INVALID_CONTENT_MSG = "\n Error: Invalid data content/structure. %s must be reformatted to fit expected structure." \
                       " See example input file on the Tapioca GitHub (https://github.com/FunctionLab/tapioca)"
@@ -19,16 +25,18 @@ def validate_file(file_name, prenorm):
     #validate file name and path.
     if not valid_path(file_name):
         print(INVALID_PATH_MSG % (file_name))
-        quit()
+        return INVALID_FILE_CODE
     elif not valid_filetype(file_name):
         print(INVALID_FILETYPE_MSG % (file_name))
-        quit()
+        return INVALID_FILETYPE_CODE
     elif not validate_file_structure(file_name,prenorm):
         if prenorm:
             print(INVALID_CONTENT_MSG % (file_name))
+            return INVALID_CONTENT_CODE
         else:
             print(INVALID_NORM_CONTENT_MSG % (file_name))
-        quit()
+            return INVALID_NORM_CONTENT_CODE
+    return CORRECT_FILE
 
 
 def valid_filetype(file_name):
@@ -134,7 +142,9 @@ def main():
         parser.exit(1, message=f"Error. Cofractionation data should option (-c1) be used with pre-normalized (-p1).")
 
     # Validate the Input
-    validate_file(args.input, args.prenorm)
+    status = validate_file(args.input, args.prenorm)
+    if status:
+        parser.exit(status, message=f"Incorrect input file")
 
 
     if not os.path.exists(args.output):
