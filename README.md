@@ -125,4 +125,4 @@ Two examples files are provided, both are located in the raw_input folder. One, 
 
 
 ## <a name="citation"></a> Citing Tapioca
-Tapioca has recently been submitted for publication.
+Reed, T.J., Tyl, M.D., Tadych, A. et al. Tapioca: a platform for predicting de novo protein–protein interactions in dynamic contexts. Nat Methods 21, 488–500 (2024). https://doi.org/10.1038/s41592-024-02179-9
