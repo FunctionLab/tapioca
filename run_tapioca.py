@@ -11,19 +11,19 @@ INVALID_CONTENT_MSG = "\n Error: Invalid data content/structure. %s must be refo
                       " See example input file on the Tapioca GitHub (https://github.com/FunctionLab/tapioca)"
 
 INVALID_NORM_CONTENT_MSG = "\n Error: Invalid data content/structure. %s must be reformatted to fit expected structure." \
-                      " See example normlaized input file on the Tapioca GitHub" \
-                      "(https://github.com/FunctionLab/tapioca)"
+    " See example normlaized input file on the Tapioca GitHub" \
+    "(https://github.com/FunctionLab/tapioca)"
 
 
 def validate_file(file_name, prenorm):
-    #validate file name and path.
+    # validate file name and path.
     if not valid_path(file_name):
         print(INVALID_PATH_MSG % (file_name))
         quit()
     elif not valid_filetype(file_name):
         print(INVALID_FILETYPE_MSG % (file_name))
         quit()
-    elif not validate_file_structure(file_name,prenorm):
+    elif not validate_file_structure(file_name, prenorm):
         if prenorm:
             print(INVALID_CONTENT_MSG % (file_name))
         else:
@@ -41,7 +41,8 @@ def valid_path(path):
     # validate file path
     return os.path.exists(path)
 
-def validate_file_structure(path,prenorm):
+
+def validate_file_structure(path, prenorm):
     # validate file contents
     table = pd.read_csv(path)
     cols = list(table.columns)
@@ -63,7 +64,7 @@ def validate_file_structure(path,prenorm):
             pass_flag = False
 
         for col in cols[3:]:
-            if not col.replace('.','').isnumeric():
+            if not col.replace('.', '').isnumeric():
                 print('Error: all curve data points (ex. temperatures) should be a number, '+str(col)+'is not a number.'
                       )
                 pass_flag = False
@@ -86,7 +87,8 @@ def validate_file_structure(path,prenorm):
 
 def main():
     # create parser object
-    parser = argparse.ArgumentParser(description="A Command Line Interface For Running Tapioca")
+    parser = argparse.ArgumentParser(
+        description="A Command Line Interface For Running Tapioca")
 
     # defining arguments for parser object
     parser.add_argument("-i", "--input", type=str, nargs=1,
@@ -127,24 +129,26 @@ def main():
     args.fullmodel = bool(args.fullmodel[0])
 
     # Check that the input file exists
-    if args.input == None:
+    if args.input is None:
         print('Error: No input file provided.')
         quit()
 
     # Validate the Input
     validate_file(input_check, args.prenorm)
 
-
+    # Convert Namespace object to dictionary so that
+    # if savename is not present, we can safely set a default name
+    args_dict = vars(args)  # type: Dict
 
     # If savename is None then set a default name based on the time
-    if args.savename == None:
+    if "savename" not in args_dict:
         current_datatime = str(datetime.datetime.now()).replace('-', '').replace(':', '') \
-                        .split('.')[0].replace(' ', '')
+            .split('.')[0].replace(' ', '')
         args.savename = current_datatime
     else:
         args.savename = args.savename[0]
 
-    if args.tissue == None:
+    if "tissue" not in args_dict:
         args.tissue = ''
     else:
         args.tissue = args.tissue[0]
